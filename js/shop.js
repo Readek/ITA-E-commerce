@@ -1,68 +1,7 @@
 // If you have time, you can move this variable "products" to a json or js file and load the data in this js. It will look more professional
-var products = [
-    {
-        id: 1,
-        name: 'cooking oil',
-        price: 10.5,
-        type: 'grocery',
-        offer: {
-            number: 3,
-            percent: 20
-        }
-    },
-    {
-        id: 2,
-        name: 'Pasta',
-        price: 6.25,
-        type: 'grocery'
-    },
-    {
-        id: 3,
-        name: 'Instant cupcake mixture',
-        price: 5,
-        type: 'grocery',
-        offer: {
-            number: 10,
-            percent: 30
-        }
-    },
-    {
-        id: 4,
-        name: 'All-in-one',
-        price: 260,
-        type: 'beauty'
-    },
-    {
-        id: 5,
-        name: 'Zero Make-up Kit',
-        price: 20.5,
-        type: 'beauty'
-    },
-    {
-        id: 6,
-        name: 'Lip Tints',
-        price: 12.75,
-        type: 'beauty'
-    },
-    {
-        id: 7,
-        name: 'Lawn Dress',
-        price: 15,
-        type: 'clothes'
-    },
-    {
-        id: 8,
-        name: 'Lawn-Chiffon Combo',
-        price: 19.99,
-        type: 'clothes'
-    },
-    {
-        id: 9,
-        name: 'Toddler Frock',
-        price: 9.99,
-        type: 'clothes'
-    }
-]
+
+// al toque mi rey
+import { products } from "./Product DB.mjs";
 
 // => Reminder, it's extremely important that you debug your code. 
 // ** It will save you a lot of time and frustration!
@@ -70,14 +9,66 @@ var products = [
 // ** Don't hesitate to seek help from your peers or your mentor if you still struggle with debugging.
 
 // Improved version of cartList. Cart is an array of products (objects), but each one has a quantity field to define its quantity, so these products are not repeated.
-var cart = [];
+const cart = [];
 
-var total = 0;
+let total = 0;
 
 // Exercise 1
+
+// onClick events cant (and shouldnt) be used when using modules, so
+// since the product data from index.html is hardcoded anyways, i'll be
+// setting event listeners for each buy button so functionallity ends up being the same
+const buyButtons = document.getElementsByClassName("buyProductBtn");
+for (let i = 0; i < buyButtons.length; i++) {
+    buyButtons[i].addEventListener("click", () => {buy(i+1)});
+}
+
+/**
+ * Adds requested product to current cart
+ * @param {Number} id 
+ */
 function buy(id) {
+
     // 1. Loop for to the array products to get the item to add to cart
     // 2. Add found product to the cart array
+
+    // check if we have product already
+    let weHaveProductAtHome;
+    cart.forEach(product => {
+
+        if (product.id == id) {
+
+            // increase quantity
+            weHaveProductAtHome = true;
+            product.quantity++;
+
+        }
+
+    });
+
+    // in case we dont
+    if (!weHaveProductAtHome) {
+
+        // add the product
+        products.forEach(product => {
+
+            if (product.id == id) {
+
+                // we dont want to modify the original db so we clone the product
+                cart.push(structuredClone(product));
+                // set initial quantity to last product in cart which should always
+                // be the one we just added
+                cart.at(-1).quantity = 1;
+
+            }
+
+        });
+
+    }
+
+    /** TODO remove */
+    console.log(cart);
+
 }
 
 // Exercise 2
