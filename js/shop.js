@@ -9,13 +9,14 @@ import { products } from "./Product DB.mjs";
 // ** Don't hesitate to seek help from your peers or your mentor if you still struggle with debugging.
 
 // Improved version of cartList. Cart is an array of products (objects), but each one has a quantity field to define its quantity, so these products are not repeated.
+/** @type {import("./Product DB.mjs").Product[]} */
 const cart = [];
 
 let total = 0;
 
 // Exercise 1
 
-// onClick events cant (and shouldnt) be used when using modules, so
+// onClick html events cant (and shouldnt) be used when using modules, so
 // since the product data from index.html is hardcoded anyways, i'll be
 // setting event listeners for each buy button so functionallity ends up being the same
 const buyButtons = document.getElementsByClassName("buyProductBtn");
@@ -72,7 +73,15 @@ function buy(id) {
 }
 
 // Exercise 2
+
+document.getElementsByClassName("cartClearBtn")[0].addEventListener("click", () => {cleanCart()});
+/** Removes all products from current cart */
 function cleanCart() {
+
+    cart.length = 0;
+
+    /** TODO remove */
+    console.log(cart);
 
 }
 

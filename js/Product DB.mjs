@@ -1,4 +1,19 @@
-/** Hardcoded shop products */
+
+/**
+ * @typedef {Object} Product
+ *  @property {Number} id
+ *  @property {String} name
+ *  @property {Number} price
+ *  @property {String} type
+ *  @property {{number: Number, percent: Number}} [offer]
+ *  @property {Number} [quantity]
+ */
+
+/**
+ * Hardcoded shop products
+ * @type {Product[]}
+ * 
+*/
 export const products = [
 
     {
