@@ -30,9 +30,6 @@ for (let i = 0; i < buyButtons.length; i++) {
  */
 function buy(id) {
 
-    // 1. Loop for to the array products to get the item to add to cart
-    // 2. Add found product to the cart array
-
     // check if we have product already
     let weHaveProductAtHome;
     cart.forEach(product => {
@@ -86,8 +83,21 @@ function cleanCart() {
 }
 
 // Exercise 3
+
+/**
+ * Calculates all product prices of current cart
+ * @returns {Number}
+ */
 function calculateTotal() {
-    // Calculate total price of the cart using the "cartList" array
+
+    let totalInCart = 0;
+
+    cart.forEach(product => {
+        totalInCart += product.price;
+    });
+
+    return totalInCart;
+
 }
 
 // Exercise 4
