@@ -9,7 +9,8 @@ import { products } from "./Product DB.mjs";
 // ** Don't hesitate to seek help from your peers or your mentor if you still struggle with debugging.
 
 // Improved version of cartList. Cart is an array of products (objects), but each one has a quantity field to define its quantity, so these products are not repeated.
-/** @type {import("./Product DB.mjs").Product[]} */
+/** @typedef {import("./Product DB.mjs").Product} Product */
+/** @type {Product[]} */
 const cart = [];
 
 let total = 0;
@@ -64,9 +65,6 @@ function buy(id) {
 
     }
 
-    /** TODO remove */
-    console.log(cart);
-
 }
 
 // Exercise 2
@@ -77,22 +75,20 @@ function cleanCart() {
 
     cart.length = 0;
 
-    /** TODO remove */
-    console.log(cart);
-
 }
 
 // Exercise 3
 
 /**
  * Calculates all product prices of current cart
+ * @param {Product[]} cartToCalc
  * @returns {Number}
  */
-function calculateTotal() {
+function calculateTotal(cartToCalc = cart) {
 
     let totalInCart = 0;
 
-    cart.forEach(product => {
+    cartToCalc.forEach(product => {
         totalInCart += product.price;
     });
 
@@ -101,8 +97,31 @@ function calculateTotal() {
 }
 
 // Exercise 4
-function applyPromotionsCart() {
-    // Apply promotions to each item in the array "cart"
+
+/**
+ * Checks for product promotions on a cart
+ * @param {Product[]} sentCart - Cart to check for promos
+ * @returns {Product[]} Cart with slashed prices
+ */
+function applyPromotionsCart(sentCart) {
+    
+    // clone cart so we dont modify original
+    const localCart = structuredClone(sentCart);
+
+    localCart.forEach(product => {
+
+        if (product.offer) {
+
+            if (product.quantity >= product.offer.number) {
+                product.price -= product.price * (product.offer.percent * 0.01);
+            }
+
+        }
+
+    });
+
+    return localCart;
+
 }
 
 // Exercise 5
