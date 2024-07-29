@@ -1,6 +1,7 @@
 // If you have time, you can move this variable "products" to a json or js file and load the data in this js. It will look more professional
 
 // al toque mi rey
+import { CartProduct } from "./Cart Product.mjs";
 import { products } from "./Product DB.mjs";
 
 // => Reminder, it's extremely important that you debug your code. 
@@ -13,8 +14,6 @@ import { products } from "./Product DB.mjs";
 /** @type {Product[]} */
 const cart = [];
 
-let total = 0;
-
 // Exercise 1
 
 // onClick html events cant (and shouldnt) be used when using modules, so
@@ -24,6 +23,9 @@ const buyButtons = document.getElementsByClassName("buyProductBtn");
 for (let i = 0; i < buyButtons.length; i++) {
     buyButtons[i].addEventListener("click", () => {buy(i+1)});
 }
+
+const cartCountDiv = document.getElementById("count_product");
+let cartCount = 0;
 
 /**
  * Adds requested product to current cart
@@ -65,6 +67,10 @@ function buy(id) {
 
     }
 
+    // keep track of cart item number
+    cartCount++;
+    cartCountDiv.innerHTML = cartCount;
+
 }
 
 // Exercise 2
@@ -74,6 +80,8 @@ document.getElementsByClassName("cartClearBtn")[0].addEventListener("click", () 
 function cleanCart() {
 
     cart.length = 0;
+    cartCount = 0;
+    cartCountDiv.innerHTML = cartCount;
 
 }
 
@@ -89,7 +97,7 @@ function calculateTotal(cartToCalc = cart) {
     let totalInCart = 0;
 
     cartToCalc.forEach(product => {
-        totalInCart += product.price;
+        totalInCart += product.price * product.quantity;
     });
 
     return totalInCart;
@@ -125,8 +133,26 @@ function applyPromotionsCart(sentCart) {
 }
 
 // Exercise 5
+
+document.getElementsByClassName("cartBtn")[0].addEventListener("click", () => {printCart()});
+const cartListDiv = document.getElementById("cart_list");
+const cartTotalDiv = document.getElementById("total_price");
+
+/** Updates all info on the "My Cart" modal */
 function printCart() {
-    // Fill the shopping cart modal manipulating the shopping cart dom
+    
+    // clear previous cart DOM contents
+    cartListDiv.innerHTML = "";
+
+    const cartWithPromos = applyPromotionsCart(cart);
+
+    // populate the list for each product
+    cartWithPromos.forEach(product => {
+        const domProduct = new CartProduct(product); // we dont really need the variable
+    });
+
+    cartTotalDiv.innerHTML = calculateTotal(cartWithPromos).toFixed(2);
+    
 }
 
 
@@ -135,8 +161,4 @@ function printCart() {
 // Exercise 7
 function removeFromCart(id) {
 
-}
-
-function open_modal() {
-    printCart();
 }
