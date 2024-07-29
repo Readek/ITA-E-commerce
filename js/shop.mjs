@@ -147,8 +147,10 @@ function printCart() {
     const cartWithPromos = applyPromotionsCart(cart);
 
     // populate the list for each product
+    let productId = 0;
     cartWithPromos.forEach(product => {
-        const domProduct = new CartProduct(product); // we dont really need the variable
+        const domProduct = new CartProduct(product, productId); // we dont really need the variable
+        productId++;
     });
 
     cartTotalDiv.innerHTML = calculateTotal(cartWithPromos).toFixed(2);
@@ -159,6 +161,18 @@ function printCart() {
 // ** Nivell II **
 
 // Exercise 7
-function removeFromCart(id) {
+/**
+ * Removes requested product from current cart
+ * @param {Number} id 
+ */
+export function removeFromCart(id) {
+
+    if (cart[id].quantity == 1) {
+        cart.splice(id, 1);
+    } else {
+        cart[id].quantity--;
+    }
+    
+    printCart(); // reprint cart product list
 
 }
